@@ -24,7 +24,7 @@ class ejecutarSQL {
         return $consul;
     }*/
 	public static function conectar(){
-		$mysqli = new mysqli('localhost','root','','librarysystem');
+		$mysqli = new mysqli('localhost','root','123456','librarysystem');
 		if ($mysqli->connect_errno) {
 			die("Error al conectar con la base de datos, verifique el nombre de la base de datos");
 		}
