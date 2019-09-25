@@ -113,14 +113,17 @@
     <script>
         $(document).ready(function(){
             var Year=<?php echo $year['Year']; ?>;
-            $('.StarCalendarInput').on('blur', function(){
+            /*$('.StarCalendarInput').on('focus blur', function(){
                 var startCal=$(this).val();
                 var datainput=$(this).attr('data-input');
                 var idinput="inputEnd-"+datainput;
                 if(startCal!==""){
                     $('#'+idinput).removeClass('material-input-disabled').attr('placeholder','Fecha de entrega');
+                    var dataCalc = startCal.split('.').map(n => parseInt(n));
+                    var dtime = new Date(dataCalc[2],dataCalc[1]-1,dataCalc[0]);
+                    console.log(dtime);
                 }
-            });
+            });*/
             jQuery('.StarCalendarInput').datetimepicker({
                 format:'d.m.Y',
                 lang:'es',
@@ -129,9 +132,33 @@
                 maxDate:Year+'/12/31',
                 yearStart:Year,
                 yearEnd:Year,
-                scrollInput:false
+                scrollInput:false,
+                onSelectDate: function(){
+                    var startCal=$('.StarCalendarInput').val();
+                    var datainput=$('.StarCalendarInput').attr('data-input');
+                    var idinput="inputEnd-"+datainput;
+                    if(startCal!==""){
+                        var sum = 2;
+                        $('#'+idinput).removeClass('material-input-disabled').attr('placeholder','Fecha de entrega');
+                        var dataCalc = startCal.split('.').map(n => parseInt(n));
+                        var dtime = new Date(dataCalc[2],dataCalc[1]-1,dataCalc[0]);
+                        dtime.setDate(dtime.getDate() + sum);
+                        if(dtime.getDay() === 0){
+                            dtime.setDate(dtime.getDate() + 1);
+                        };
+                        if(dtime.getDay() === 6){
+                            dtime.setDate(dtime.getDate() + 2);
+                        };
+                        var dia = (dtime.getDate()+'').length === 2?(dtime.getDate()+''):('0'+dtime.getDate()+'') ;
+                        var mes = ((dtime.getMonth()+1)+'').length === 2?((dtime.getMonth()+1)+''):('0'+(dtime.getMonth()+1)+'');
+                        var anio = dtime.getFullYear()+'';
+                        
+                        var fecha = dia+'.'+mes+'.'+anio;
+                        $('.EndCalendarInput').val(fecha);
+                    }
+                }
             });
-            jQuery('.EndCalendarInput').datetimepicker({
+            /*jQuery('.EndCalendarInput').datetimepicker({
                 format:'d.m.Y',
                 lang:'es',
                 timepicker:false,
@@ -140,7 +167,7 @@
                 yearStart:Year,
                 yearEnd:Year,
                 scrollInput:false
-            });
+            });*/
         });
     </script>
     <?php 
