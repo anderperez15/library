@@ -11,7 +11,7 @@ $selectDataBook=ejecutarSQL::consultar("SELECT * FROM libro WHERE CodigoLibro='$
 $dataBook=mysqli_fetch_array($selectDataBook);
 $totalD=$dataBook['Existencias']-$dataBook['Prestado'];
 $totalUp=$dataBook['Prestado']+1;
-if($totalD>=2){
+if($totalD>=1){
     $checkingCorrelative=ejecutarSQL::consultar("SELECT * FROM prestamo WHERE CorrelativoLibro='$bookCorrelative' AND Estado='Prestamo'");
     if(mysqli_num_rows($checkingCorrelative)<=0){
         if(consultasSQL::UpdateSQL("libro", "Prestado='$totalUp'", "CodigoLibro='$bookCode'") && consultasSQL::UpdateSQL("prestamo", "CorrelativoLibro='$bookCorrelative',CodigoAdmin='$AdminCode',Estado='Prestamo'", "CodigoPrestamo='$loanCode'")){

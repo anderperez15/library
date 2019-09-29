@@ -76,7 +76,7 @@ $checkTotalsBooks=ejecutarSQL::consultar("SELECT * FROM libro WHERE CodigoLibro=
 $dataBook=mysqli_fetch_array($checkTotalsBooks);
 $bookUnits=$dataBook['Prestado']+1;
 $totalBL=$dataBook['Existencias']-$dataBook['Prestado'];
-if($totalBL>1){
+if($totalBL>=1){
     $checkUsers=ejecutarSQL::consultar("SELECT * FROM ".$tableUser." WHERE ".$userField."='".$userKey."'");
     if(mysqli_num_rows($checkUsers)>=1){
         $checkLoanUsers=ejecutarSQL::consultar("SELECT * FROM ".$tableLoan." WHERE ".$userField."='".$userKey."'");

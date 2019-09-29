@@ -54,7 +54,7 @@
                 <div class="col-xs-12" style="padding: 40px 0">
                     <?php
                         $total=$fila['Existencias']-$fila['Prestado'];
-                        if($total>1){
+                        if($total>=1){
                             if($_SESSION['UserPrivilege']=='Admin'){
                                include './inc/FormLoanAdmin.php'; 
                             }
