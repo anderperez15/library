@@ -62,7 +62,13 @@
                                include './inc/FormLoanUsers.php';
                             }
                         }else{
-                            echo '<p class="all-tittles lead text-center"><i class="zmdi zmdi-alert-triangle zmdi-hc-5x"></i> <br>Lo sentimos por el momento la carpeta no se encuentra disponible y no se puede realizar préstamo alguno</p>';
+                            $userPrestadoQuery  = ejecutarSQL::consultar("select e.Nombre, e.Apellido from prestamo as p join prestamoestudiante as pe join estudiante as e where p.CodigoPrestamo = pe.CodigoPrestamo and p.Estado = 'Prestamo' and e.NIE=pe.NIE and p.CodigoLibro='".$codeBook."' Limit 1");
+                            $userPrestamo = mysqli_fetch_array($userPrestadoQuery);
+                            if(count($userPrestamo) == 0){
+                                echo '<p class="all-tittles lead text-center"><i class="zmdi zmdi-alert-triangle zmdi-hc-5x"></i> <br>Lo sentimos por el momento la carpeta no se encuentra disponible y no se puede realizar préstamo alguno. Debido a que solo contamos con una unidad!</p>';
+                            } else {
+                                echo '<p class="all-tittles lead text-center"><i class="zmdi zmdi-alert-triangle zmdi-hc-5x"></i> <br>Lo sentimos por el momento la carpeta no se encuentra disponible y no se puede realizar préstamo alguno. Prestada a '.$userPrestamo['Nombre'].' '.$userPrestamo['Apellido'].'</p>';
+                            }
                         }
                         $checkYear=ejecutarSQL::consultar("SELECT * FROM institucion");
                         $year=mysqli_fetch_array($checkYear);
